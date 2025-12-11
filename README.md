@@ -1,4 +1,4 @@
-# PROJECTNAME
+# DMZ and Network Hardening (Packet Tracer)
 
 ## Objective
 [Brief Objective - Remove this afterwards]
