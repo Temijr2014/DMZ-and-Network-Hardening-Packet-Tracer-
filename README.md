@@ -24,4 +24,4 @@ The objective of this project is to design and implement a secure DMZ (Demilitar
 
 ## Steps✅
 - firstly lets begin by setting up are Topology as you can see below
-
+![Topology](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/460dd49c7985a0186d6b06aee7ff47070eef084b/DMZ%20Topology.png)
