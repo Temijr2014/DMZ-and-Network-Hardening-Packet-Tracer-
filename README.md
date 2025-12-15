@@ -97,7 +97,7 @@ DMZ 💂‍♂️
 -     50 - IP
 -     999 - Black_Hole
 
-## vlan configuration 📃 on internal switches
+## Vlan configuration 📃 on internal switches
 -     config t
       Vlan 10
       name Workers    
@@ -136,3 +136,79 @@ DMZ 💂‍♂️
       interface vlan 50
       ip address 192.168.50.1 255.255.255.248
       no shutdown
+
+## Now Devices on the internal network should communicate to other Vlans!💯
+
+![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/71fe5376843662f107c6f7dee0354449b2476085/Technician%2012_15_2025%2012_10_49%20PM.png)
+
+## Port Security 🔐
+
+Lets start out by assigning end hosts to the appropriate vlan and securing physical interfaces.
+The vlan design is relatively simple with worker, technician, and separate vlans for various servers.
+This helps create segmentation as well as access control when ACLs are applied.
+
+## Internal Switch configuration 📃
+-     conf t
+      int ran f0/4-19, g0/1-2
+      switchport access vlan 999
+      shut
+      int ran f0/1-23, g0/1-2
+      switchport mode access
+      switchport port-security
+      switchport port-security mac-address sticky
+      int f0/1
+      switchport access vlan 20
+      int ran f0/2-3
+      switchport access vlan 10
+      int f0/20
+      switchport access vlan 30
+      int f0/21
+      switchport access vlan 40
+      int ran f0/22-23
+      switchport access vlan 50
+      end
+      wr
+
+## External Switch configuration 📃
+-     conf t
+      int ran f0/4-23, g0/1-2
+      switchport access vlan 999
+      shut
+      int ran f0/1-23, g0/1-2
+      switchport mode access
+      switchport port-security
+      switchport port-security mac-address sticky
+      int f0/1
+      switchport access vlan 80
+      int ran f0/2-3
+      switchport access vlan 70
+      end
+      wr
+
+## DMZ Switch configuration 📃
+-     conf t
+      int ran f0/4-23, g0/1-2
+      switchport access vlan 999
+      shut
+      int ran f0/1-23, g0/1-2
+      switchport mode access
+      switchport port-security
+      switchport port-security mac-address sticky
+      int ran f0/1-3, f0/24
+      switchport access vlan 50
+      end
+      wr
+
+  ## Verify configs:
+-     show run
+      show ip interface brief
+      show vlan brief
+      show port-security
+
+![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_46_55%20PM.png)
+    
+![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_47_28%20PM.png)
+
+![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_50_02%20PM.png)
+
+![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_48_13%20PM.png)
