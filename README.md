@@ -155,6 +155,19 @@ DMZ 💂‍♂️
       ip address 10.0.80.1 255.255.255.224
       no shutdown
       exit
+
+## DHCP 📃 configuration on external switch
+-     conf t
+      ip dhcp excluded-address 10.0.70.1
+      ip dhcp excluded-address 10.0.80.1
+      ip dhcp pool WORKERS
+      network 10.0.70.0 255.255.255.192
+      default-router 10.0.70.1
+      ip dhcp pool TECHNICIAN
+      network 10.0.80.0 255.255.255.224
+      default-router 10.0.80.1
+      end
+      wr
   
 ## Now Devices on the internal network should communicate to other Vlans!💯
 
