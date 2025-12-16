@@ -156,19 +156,6 @@ DMZ 💂‍♂️
       no shutdown
       exit
 
-## DHCP 📃 configuration on external switch
--     conf t
-      ip dhcp excluded-address 10.0.70.1
-      ip dhcp excluded-address 10.0.80.1
-      ip dhcp pool WORKERS
-      network 10.0.70.0 255.255.255.192
-      default-router 10.0.70.1
-      ip dhcp pool TECHNICIAN
-      network 10.0.80.0 255.255.255.224
-      default-router 10.0.80.1
-      end
-      wr
-  
 ## Now Devices on the internal network should communicate to other Vlans!💯
 
 ![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/71fe5376843662f107c6f7dee0354449b2476085/Technician%2012_15_2025%2012_10_49%20PM.png)
@@ -216,6 +203,19 @@ This helps create segmentation as well as access control when ACLs are applied.
       end
       wr
 
+## DHCP 📃 configuration on external switch
+-     conf t
+      ip dhcp excluded-address 10.0.70.1
+      ip dhcp excluded-address 10.0.80.1
+      ip dhcp pool WORKERS
+      network 10.0.70.0 255.255.255.192
+      default-router 10.0.70.1
+      ip dhcp pool TECHNICIAN
+      network 10.0.80.0 255.255.255.224
+      default-router 10.0.80.1
+      end
+      wr
+  
 ## DMZ Switch configuration 📃
 -     conf t
       int ran f0/4-23, g0/1-2
@@ -243,3 +243,15 @@ This helps create segmentation as well as access control when ACLs are applied.
 ![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_50_02%20PM.png)
 
 ![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/e4ad1d6a34139e4af425f673dbfa9e4c8c44fef1/Internal%2012_15_2025%2012_48_13%20PM.png)
+
+## Internal server setup 💻
+To configure servers in Packet Tracer, simply open the server and click on the services tab.
+Take notice that all unused services are turned off.
+Before configuring any of these services make sure they are toggled on.
+
+## DHCP Configuration 💯
+| Pool Name | Default Gateway  | Start IP | Subnet Mask | Max User |
+| :---: | :--- | :--- | :--- | :--- |
+| serverPool | 0.0.0.0 | 192.168.30.0 | 255.255.255.252 | 0 |
+| Worker Pool | 192.168.10.1 | 192.168.10.2 | 255.255.255.248 | 2 |
+| Technician Pool | 192.168.20.1 | 192.168.20.2 | 255.255.255.252 | 1 |
