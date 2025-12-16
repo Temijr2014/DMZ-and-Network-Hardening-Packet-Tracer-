@@ -119,8 +119,17 @@ DMZ 💂‍♂️
       name NTP / Syslog  
       exit
 
-## Inter-vlan Routing configuration 📃 on internal switches
+## Vlan configuration 📃 on external switches
+-     config t
+      vlan 70
+      name WORKERS
+      vlan 80
+      name TECHNICIANS
+      vlan 999
+      name Black_Hole
+      exit
 
+## Inter-vlan Routing configuration 📃 on internal switches
 -     interface vlan 10
       ip address 192.168.10.1 255.255.255.248
       no shutdown
@@ -136,13 +145,22 @@ DMZ 💂‍♂️
       interface vlan 50
       ip address 192.168.50.1 255.255.255.248
       no shutdown
-
+  
+## Inter-vlan Routing configuration 📃 on external switches
+-     interface vlan 70
+      ip address 10.0.70.1 255.255.255.192
+      no shutdown
+      exit
+      interface vlan 80
+      ip address 10.0.80.1 255.255.255.224
+      no shutdown
+      exit
+  
 ## Now Devices on the internal network should communicate to other Vlans!💯
 
 ![](https://github.com/Temijr2014/DMZ-and-Network-Hardening-Packet-Tracer-/blob/71fe5376843662f107c6f7dee0354449b2476085/Technician%2012_15_2025%2012_10_49%20PM.png)
 
 ## Port Security 🔐
-
 Lets start out by assigning end hosts to the appropriate vlan and securing physical interfaces.
 The vlan design is relatively simple with worker, technician, and separate vlans for various servers.
 This helps create segmentation as well as access control when ACLs are applied.
