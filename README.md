@@ -249,9 +249,77 @@ To configure servers in Packet Tracer, simply open the server and click on the s
 Take notice that all unused services are turned off.
 Before configuring any of these services make sure they are toggled on.
 
-## DHCP Configuration 💯
+## DHCP Server Configuration 💯
 | Pool Name | Default Gateway  | Start IP | Subnet Mask | Max User |
 | :---: | :--- | :--- | :--- | :--- |
 | serverPool | 0.0.0.0 | 192.168.30.0 | 255.255.255.252 | 0 |
 | Worker Pool | 192.168.10.1 | 192.168.10.2 | 255.255.255.248 | 2 |
 | Technician Pool | 192.168.20.1 | 192.168.20.2 | 255.255.255.252 | 1 |
+
+When DHCP is configured through a server, the interface vlans should be assigned a helper IP to the DHCP server.
+
+## On Internal:
+-     conf t
+      int vlan 10
+      ip helper-address 192.168.30.2
+      int vlan 20
+      ip helper-address 192.168.30.2
+      end
+      wr
+
+## FTP Server 
+First open the FTP server, delete the default username, and use the following layout:
+| Username | Password | Permission |
+| :---: | :--- | :--- | 
+| admin | cisco | RWDNL |
+| user | cisco | RL |
+
+Obviously, in an actual scenario, significantly stronger passwords should be used.
+For the time being let’s ignore password security and just focus on the protocols.
+
+## Verify configs✅
+Open command prompt on an end host in the Internal zone
+Run command ftp 192.168.40.2
+Supply user & password (admin, cisco)
+Run dir to see what’s available
+Run get [name of file] to retrieve a file
+
+## NTP & Syslog
+NTP & Syslog will be configured on Internal, which will provide logging auditability.
+
+NTP will synchronize system clocks of the network devices in the private network.
+
+Syslog will utilize NTP to facilitate log messages to a server for all devices in the private network.
+
+NTP should be configured first considering that Syslog would be rendered useless without it.
+
+On NTP server:
+Enable Authentication
+
+Key: 1
+Password: cisco
+On Syslog server:
+Confirm service is activated
+
+## On Internal:
+-     service timestamps log datetime msec
+      service timestamps debug datetime msec
+
+-     conf t
+      ntp server 192.168.50.2
+      ntp authenticate
+      ntp authentication-key 1 md5 cisco
+      ntp trusted-key 1
+      ntp update-calendar
+      logging 192.168.50.3
+      logging on
+      logging userinfo
+      logging trap
+      end
+      wr   
+
+## Verify configs:
+-     show clock
+      show ntp associations
+      show ntp status
+      show logging
